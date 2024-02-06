@@ -13,7 +13,7 @@ variable "instance_initiated_shutdown_behavior" {
 variable "instance_type" {
   type        = string
   description = "Instance type to launch"
-  default    = null
+  default     = null
 }
 
 variable "iam_instance_profile_name" {
@@ -145,8 +145,8 @@ variable "mixed_instances_policy" {
         version              = optional(string)
       }))
       override = list(object({
-        instance_type            = optional(string)
-        weighted_capacity         = optional(string)
+        instance_type     = optional(string)
+        weighted_capacity = optional(string)
       }))
     }))
   }))
