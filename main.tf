@@ -1,5 +1,5 @@
 resource "aws_launch_configuration" "default" {
-  count             = module.this.enabled && var.create_aws_launch_configuration ? 1 : 0
+  count             = var.enabled && var.create_aws_launch_configuration ? 1 : 0
   name              = var.launch_configuration_name
   image_id          = var.image_id
   instance_type     = var.instance_type
@@ -52,7 +52,7 @@ resource "aws_launch_configuration" "default" {
 }
 
 resource "aws_autoscaling_group" "default" {
-  count = module.this.enabled ? 1 : 0
+  count = var.enabled ? 1 : 0
 
   name                      = var.asg_name
   vpc_zone_identifier       = coalesce(var.subnet_ids, data.aws_subnet.default[*].id, [])
