@@ -1,3 +1,9 @@
+variable "enabled" {
+  type        = bool
+  description = "Set to `false` to prevent the module from creating any resources"
+  default     = true
+}
+
 variable "image_id" {
   type        = string
   description = "The EC2 image ID to launch"
