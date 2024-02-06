@@ -10,12 +10,6 @@ variable "image_id" {
   default     = ""
 }
 
-variable "instance_initiated_shutdown_behavior" {
-  type        = string
-  description = "Shutdown behavior for the instances. Can be `stop` or `terminate`"
-  default     = "terminate"
-}
-
 variable "instance_type" {
   type        = string
   description = "Instance type to launch"
@@ -40,18 +34,6 @@ variable "security_group_ids" {
   default     = []
 }
 
-variable "launch_template_version" {
-  type        = string
-  description = "Launch template version. Can be version number, `$Latest` or `$Default`"
-  default     = "$Latest"
-}
-
-variable "associate_public_ip_address" {
-  type        = bool
-  description = "Associate a public IP address with an instance in a VPC"
-  default     = false
-}
-
 variable "user_data_base64" {
   type        = string
   description = "The Base64-encoded user data to provide when launching the instances"
@@ -64,55 +46,10 @@ variable "enable_monitoring" {
   default     = true
 }
 
-variable "update_default_version" {
-  type        = bool
-  description = "Whether to update Default version of Launch template each update"
-  default     = false
-}
-
 variable "ebs_optimized" {
   type        = bool
   description = "If true, the launched EC2 instance will be EBS-optimized"
   default     = false
-}
-
-variable "block_device_mappings" {
-  description = "Specify volumes to attach to the instance besides the volumes specified by the AMI"
-
-  type = list(object({
-    device_name  = string
-    no_device    = bool
-    virtual_name = string
-    ebs = object({
-      delete_on_termination = bool
-      encrypted             = bool
-      iops                  = number
-      throughput            = number
-      kms_key_id            = string
-      snapshot_id           = string
-      volume_size           = number
-      volume_type           = string
-    })
-  }))
-
-  default = []
-}
-
-variable "instance_market_options" {
-  description = "The market (purchasing) option for the instances"
-
-  type = object({
-    market_type = string
-    spot_options = optional(object({
-      block_duration_minutes         = optional(number)
-      instance_interruption_behavior = optional(string)
-      max_price                      = optional(number)
-      spot_instance_type             = optional(string)
-      valid_until                    = optional(string)
-    }))
-  })
-
-  default = null
 }
 
 variable "instance_refresh" {
@@ -157,47 +94,6 @@ variable "mixed_instances_policy" {
     }))
   }))
   default = []
-}
-
-
-variable "placement" {
-  description = "The placement specifications of the instances"
-
-  type = object({
-    affinity          = string
-    availability_zone = string
-    group_name        = string
-    host_id           = string
-    tenancy           = string
-  })
-
-  default = null
-}
-
-variable "credit_specification" {
-  description = "Customize the credit specification of the instances"
-
-  type = object({
-    cpu_credits = string
-  })
-
-  default = null
-}
-
-variable "elastic_gpu_specifications" {
-  description = "Specifications of Elastic GPU to attach to the instances"
-
-  type = object({
-    type = string
-  })
-
-  default = null
-}
-
-variable "disable_api_termination" {
-  type        = bool
-  description = "If `true`, enables EC2 Instance Termination Protection"
-  default     = false
 }
 
 variable "max_size" {
@@ -313,180 +209,10 @@ variable "service_linked_role_arn" {
   default     = ""
 }
 
-variable "autoscaling_policies_enabled" {
-  type        = bool
-  default     = true
-  description = "Whether to create `aws_autoscaling_policy` and `aws_cloudwatch_metric_alarm` resources to control Auto Scaling"
-}
-
-variable "scale_up_cooldown_seconds" {
-  type        = number
-  default     = 300
-  description = "The amount of time, in seconds, after a scaling activity completes and before the next scaling activity can start"
-}
-
-variable "scale_up_scaling_adjustment" {
-  type        = number
-  default     = 1
-  description = "The number of instances by which to scale. `scale_up_adjustment_type` determines the interpretation of this number (e.g. as an absolute number or as a percentage of the existing Auto Scaling group size). A positive increment adds to the current capacity and a negative value removes from the current capacity"
-}
-
-variable "scale_up_adjustment_type" {
-  type        = string
-  default     = "ChangeInCapacity"
-  description = "Specifies whether the adjustment is an absolute number or a percentage of the current capacity. Valid values are `ChangeInCapacity`, `ExactCapacity` and `PercentChangeInCapacity`"
-}
-
-variable "scale_up_policy_type" {
-  type        = string
-  default     = "SimpleScaling"
-  description = "The scaling policy type. Currently only `SimpleScaling` is supported"
-}
-
-variable "scale_down_cooldown_seconds" {
-  type        = number
-  default     = 300
-  description = "The amount of time, in seconds, after a scaling activity completes and before the next scaling activity can start"
-}
-
-variable "scale_down_scaling_adjustment" {
-  type        = number
-  default     = -1
-  description = "The number of instances by which to scale. `scale_down_scaling_adjustment` determines the interpretation of this number (e.g. as an absolute number or as a percentage of the existing Auto Scaling group size). A positive increment adds to the current capacity and a negative value removes from the current capacity"
-}
-
-variable "scale_down_adjustment_type" {
-  type        = string
-  default     = "ChangeInCapacity"
-  description = "Specifies whether the adjustment is an absolute number or a percentage of the current capacity. Valid values are `ChangeInCapacity`, `ExactCapacity` and `PercentChangeInCapacity`"
-}
-
-variable "scale_down_policy_type" {
-  type        = string
-  default     = "SimpleScaling"
-  description = "The scaling policy type. Currently only `SimpleScaling` is supported"
-}
-
-variable "cpu_utilization_high_evaluation_periods" {
-  type        = number
-  default     = 2
-  description = "The number of periods over which data is compared to the specified threshold"
-}
-
-variable "cpu_utilization_high_period_seconds" {
-  type        = number
-  default     = 300
-  description = "The period in seconds over which the specified statistic is applied"
-}
-
-variable "cpu_utilization_high_threshold_percent" {
-  type        = number
-  default     = 90
-  description = "The value against which the specified statistic is compared"
-}
-
-variable "cpu_utilization_high_statistic" {
-  type        = string
-  default     = "Average"
-  description = "The statistic to apply to the alarm's associated metric. Either of the following is supported: `SampleCount`, `Average`, `Sum`, `Minimum`, `Maximum`"
-}
-
-variable "cpu_utilization_low_evaluation_periods" {
-  type        = number
-  default     = 2
-  description = "The number of periods over which data is compared to the specified threshold"
-}
-
-variable "cpu_utilization_low_period_seconds" {
-  type        = number
-  default     = 300
-  description = "The period in seconds over which the specified statistic is applied"
-}
-
-variable "cpu_utilization_low_threshold_percent" {
-  type        = number
-  default     = 10
-  description = "The value against which the specified statistic is compared"
-}
-
-variable "cpu_utilization_low_statistic" {
-  type        = string
-  default     = "Average"
-  description = "The statistic to apply to the alarm's associated metric. Either of the following is supported: `SampleCount`, `Average`, `Sum`, `Minimum`, `Maximum`"
-}
-
 variable "desired_capacity" {
   type        = number
   description = "The number of Amazon EC2 instances that should be running in the group, if not set will use `min_size` as value"
   default     = null
-}
-
-variable "default_alarms_enabled" {
-  type        = bool
-  default     = true
-  description = "Enable or disable cpu and memory Cloudwatch alarms"
-}
-
-variable "custom_alarms" {
-  type = map(object({
-    alarm_name                = string
-    comparison_operator       = string
-    evaluation_periods        = string
-    metric_name               = string
-    namespace                 = string
-    period                    = string
-    statistic                 = string
-    extended_statistic        = string
-    threshold                 = string
-    treat_missing_data        = string
-    ok_actions                = list(string)
-    insufficient_data_actions = list(string)
-    dimensions_name           = string
-    dimensions_target         = string
-    alarm_description         = string
-    alarm_actions             = list(string)
-  }))
-  default     = {}
-  description = "Map of custom CloudWatch alarms configurations"
-}
-
-variable "metadata_http_endpoint_enabled" {
-  type        = bool
-  default     = true
-  description = "Set false to disable the Instance Metadata Service."
-}
-
-variable "metadata_http_put_response_hop_limit" {
-  type        = number
-  default     = 2
-  description = <<-EOT
-    The desired HTTP PUT response hop limit (between 1 and 64) for Instance Metadata Service requests.
-    The default is `2` to support containerized workloads.
-    EOT
-}
-
-variable "metadata_http_tokens_required" {
-  type        = bool
-  default     = true
-  description = "Set true to require IMDS session tokens, disabling Instance Metadata Service Version 1."
-}
-
-variable "metadata_http_protocol_ipv6_enabled" {
-  type        = bool
-  default     = false
-  description = "Set true to enable IPv6 in the launch template."
-}
-
-variable "metadata_instance_metadata_tags_enabled" {
-  type        = bool
-  default     = false
-  description = "Set true to enable metadata tags in the launch template."
-}
-
-variable "tag_specifications_resource_types" {
-  type        = set(string)
-  default     = ["instance", "volume"]
-  description = "List of tag specification resource types to tag. Valid values are instance, volume, elastic-gpu and spot-instances-request."
 }
 
 variable "max_instance_lifetime" {
@@ -524,13 +250,6 @@ variable "asg_name" {
   description = "The name of the Auto Scaling group. If you do not specify a name, AWS CloudFormation generates a unique physical ID and uses that ID for the group name. For more information, see Name Type."
 }
 
-variable "launch_configuration" {
-  type        = string
-  description = "The name of the launch configuration to use for the group. Conflicts with `launch_template`."
-  default     = null
-}
-
-
 variable "autoscaling_policies" {
   type        = map(any)
   default     = {}
@@ -549,24 +268,11 @@ variable "create_aws_launch_configuration" {
   default     = false
 }
 
-variable "create_aws_launch_template" {
-  type        = bool
-  description = "Create a launch template for the workspace"
-  default     = false
-}
-
 variable "spot_price" {
   type        = string
   description = "The maximum price per unit hour that you are willing to pay for a Spot Instance. If you leave the value at its default (empty), AWS uses the On-Demand price as the maximum price."
   default     = ""
 }
-
-variable "aws_launch_template_tags" {
-  type        = map(string)
-  description = "A map of tags to assign to the launch template"
-  default     = {}
-}
-
 
 variable "root_block_device" {
   type        = map(any)
@@ -592,41 +298,10 @@ variable "placement_tenancy" {
   default     = ""
 }
 
-variable "launch_template_name" {
-  type        = string
-  description = "The name of the launch template. If you do not specify a name, AWS CloudFormation generates a unique physical ID and uses that ID for the group name. For more information, see Name Type."
-  default     = null
-}
-
-
-variable "metadata_options" {
-  type        = map(any)
-  description = "The metadata options for the instance. See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template#metadata_options"
-  default     = {}
-}
-
-variable "network_interfaces" {
-  type        = list(map(any))
-  description = "The network interfaces for the instance. See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template#network_interfaces"
-  default     = []
-}
-
-variable "tag_specifications" {
-  type        = list(map(any))
-  description = "The tags to apply to the resources during launch. See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template#tag_specifications"
-  default     = []
-}
-
 variable "aws_cloudwatch_metric_alarms" {
   type        = map(any)
   default     = {}
   description = "Map of CloudWatch metric alarms to create"
-}
-
-variable "user_data" {
-  type        = string
-  description = "The user data to provide when launching the instance"
-  default     = ""
 }
 
 variable "autoscaling_group_tags" {
@@ -638,12 +313,6 @@ variable "autoscaling_group_tags" {
 variable "subnet_names" {
   type        = list(string)
   description = "A list of subnet names to launch resources in"
-  default     = []
-}
-
-variable "security_group_names" {
-  type        = list(string)
-  description = "A list of security group names to launch resources in"
   default     = []
 }
 
