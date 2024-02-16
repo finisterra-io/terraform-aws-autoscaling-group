@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [1.0.2](https://github.com/finisterra-io/terraform-aws-autoscaling-group/compare/v1.0.1...v1.0.2) (2024-02-16)
+
+
+### Bug Fixes
+
+* Ignore additional changes in lifecycle block ([8c72f05](https://github.com/finisterra-io/terraform-aws-autoscaling-group/commit/8c72f054dcf8b60b00be5d897e3a3e5d75f23b88))
+
 ### [1.0.1](https://github.com/finisterra-io/terraform-aws-autoscaling-group/compare/v1.0.0...v1.0.1) (2024-02-07)
 
 
