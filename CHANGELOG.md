@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.0](https://github.com/finisterra-io/terraform-aws-autoscaling-group/compare/v1.2.0...v1.3.0) (2024-09-05)
+
+
+### Features
+
+* Refactor autoscaling.tf for improved readability and maintainability ([c60a46f](https://github.com/finisterra-io/terraform-aws-autoscaling-group/commit/c60a46f628600e4e1d837fdbf546d48eb1fd8b00))
+
 ## [1.2.0](https://github.com/finisterra-io/terraform-aws-autoscaling-group/compare/v1.1.0...v1.2.0) (2024-09-05)
 
 
