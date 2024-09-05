@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [1.0.3](https://github.com/finisterra-io/terraform-aws-autoscaling-group/compare/v1.0.2...v1.0.3) (2024-09-05)
+
+
+### Bug Fixes
+
+* add tfsec ([f136230](https://github.com/finisterra-io/terraform-aws-autoscaling-group/commit/f13623070641b34928d241f771bae453a72c432d))
+
 ### [1.0.2](https://github.com/finisterra-io/terraform-aws-autoscaling-group/compare/v1.0.1...v1.0.2) (2024-02-16)
 
 
