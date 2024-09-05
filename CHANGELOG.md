@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0](https://github.com/finisterra-io/terraform-aws-autoscaling-group/compare/v1.0.3...v1.1.0) (2024-09-05)
+
+
+### Features
+
+* Add target_tracking_configuration to autoscaling.tf ([69f534a](https://github.com/finisterra-io/terraform-aws-autoscaling-group/commit/69f534ae737cc641cd0a5d6d9a937f93e90f5d3f))
+
 ### [1.0.3](https://github.com/finisterra-io/terraform-aws-autoscaling-group/compare/v1.0.2...v1.0.3) (2024-09-05)
 
 
