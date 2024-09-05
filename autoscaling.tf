@@ -1,11 +1,21 @@
 resource "aws_autoscaling_policy" "this" {
-  for_each               = var.autoscaling_policies
-  name                   = each.key
-  enabled                = each.value.enabled
-  scaling_adjustment     = try(each.value.scaling_adjustment, 0)
-  adjustment_type        = try(each.value.adjustment_type, "")
-  policy_type            = each.value.policy_type
-  cooldown               = each.value.cooldown
+  for_each           = var.autoscaling_policies
+  name               = each.key
+  enabled            = each.value.enabled
+  scaling_adjustment = try(each.value.scaling_adjustment, 0)
+  adjustment_type    = try(each.value.adjustment_type, "")
+  policy_type        = each.value.policy_type
+  cooldown           = each.value.cooldown
+  dynamic "target_tracking_configuration" {
+    for_each = try(each.value.target_tracking_configuration, [])
+    content {
+      predefined_metric_specification {
+        predefined_metric_type = target_tracking_configuration.value.predefined_metric_specification.predefined_metric_type
+        resource_label         = target_tracking_configuration.value.predefined_metric_specification.resource_label
+      }
+      target_value = target_tracking_configuration.value.target_value
+    }
+  }
   autoscaling_group_name = one(aws_autoscaling_group.default[*].name)
 }
 
