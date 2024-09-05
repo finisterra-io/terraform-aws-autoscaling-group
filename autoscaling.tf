@@ -6,6 +6,7 @@ resource "aws_autoscaling_policy" "this" {
   adjustment_type    = try(each.value.adjustment_type, "")
   policy_type        = each.value.policy_type
   cooldown           = each.value.cooldown
+  # Step scaling policy
   dynamic "target_tracking_configuration" {
     for_each = try(each.value.target_tracking_configuration, [])
     content {
