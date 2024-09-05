@@ -2,8 +2,8 @@ resource "aws_autoscaling_policy" "this" {
   for_each               = var.autoscaling_policies
   name                   = each.key
   enabled                = each.value.enabled
-  scaling_adjustment     = each.value.scaling_adjustment
-  adjustment_type        = each.value.adjustment_type
+  scaling_adjustment     = try(each.value.scaling_adjustment, 0)
+  adjustment_type        = try(each.value.adjustment_type, "")
   policy_type            = each.value.policy_type
   cooldown               = each.value.cooldown
   autoscaling_group_name = one(aws_autoscaling_group.default[*].name)
