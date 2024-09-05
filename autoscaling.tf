@@ -10,9 +10,12 @@ resource "aws_autoscaling_policy" "this" {
   dynamic "target_tracking_configuration" {
     for_each = try(each.value.target_tracking_configuration, [])
     content {
-      predefined_metric_specification {
-        predefined_metric_type = target_tracking_configuration.value.predefined_metric_specification.predefined_metric_type
-        resource_label         = target_tracking_configuration.value.predefined_metric_specification.resource_label
+      dynamic "predefined_metric_specification" {
+        for_each = try(target_tracking_configuration.value.predefined_metric_specification, {})
+        content {
+          predefined_metric_type = predefined_metric_specification.value.predefined_metric_type
+          resource_label         = predefined_metric_specification.value.resource_label
+        }
       }
       target_value = target_tracking_configuration.value.target_value
     }
