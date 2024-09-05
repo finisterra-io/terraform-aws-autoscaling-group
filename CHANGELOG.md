@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0](https://github.com/finisterra-io/terraform-aws-autoscaling-group/compare/v1.1.0...v1.2.0) (2024-09-05)
+
+
+### Features
+
+* Update AWS provider version to >= 4.67 ([55a6dfe](https://github.com/finisterra-io/terraform-aws-autoscaling-group/commit/55a6dfe2f59603a07e11fbbc1a0d316a7b5f7f55))
+
 ## [1.1.0](https://github.com/finisterra-io/terraform-aws-autoscaling-group/compare/v1.0.3...v1.1.0) (2024-09-05)
 
 
